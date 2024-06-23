@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  labels:
+    app: spark
+  name: spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+
+      
+      labels:
+        app: spark
+    spec:
+      containers:
+        - env:
+            - name: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+              value: "no"
+            - name: SPARK_MODE
+              value: master
+            - name: SPARK_RPC_AUTHENTICATION_ENABLED
+              value: "no"
+            - name: SPARK_RPC_ENCRYPTION_ENABLED
+              value: "no"
+            - name: SPARK_SSL_ENABLED
+              value: "no"
+          image: bitnami/spark:3.1.2
+          name: spark
+          ports:
+            - containerPort: 8080
+            - containerPort: 7077
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/local/spark/app
+              name: spark-claim0
+            - mountPath: /usr/local/spark/resources
+              name: spark-claim1
+      hostname: spark
+      restartPolicy: Always
+      volumes:
+        - name: spark-claim0
+          persistentVolumeClaim:
+            claimName: spark-claim0
+        - name: spark-claim1
+          persistentVolumeClaim:
+            claimName: spark-claim1
+status: {}

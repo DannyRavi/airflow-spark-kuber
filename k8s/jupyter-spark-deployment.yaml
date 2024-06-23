@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  labels:
+    app: jupyter-spark
+  name: jupyter-spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyter-spark
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+
+      
+      labels:
+        app: jupyter-spark
+    spec:
+      containers:
+        - image: jupyter/pyspark-notebook:spark-3.1.2
+          name: jupyter-spark
+          command: ['sh', '-c', 'jupyter notebook  --ip="*"  --NotebookApp.token=""  --NotebookApp.password= "" ']
+          ports:
+            - containerPort: 8888
+          resources: {}
+          volumeMounts:
+            - mountPath: /home/jovyan/work/notebooks/
+              name: jupyter-spark-claim0
+            - mountPath: /home/jovyan/work/data/
+              name: jupyter-spark-claim0
+            - mountPath: /home/jovyan/work/jars/
+              name: jupyter-spark-claim0
+            - mountPath: /home/jovyan/work/data/app/
+              name: spark-claim0
+            - mountPath: /home/jovyan/work/data/resources/
+              name: spark-claim1
+            - mountPath: /home/jovyan/work/data/dags/
+              name: airflow-webserver-claim0
+      restartPolicy: Always
+      volumes:
+        - name: jupyter-spark-claim0
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim0
+        - name: spark-claim0
+          persistentVolumeClaim:
+            claimName: spark-claim0
+        - name: spark-claim1
+          persistentVolumeClaim:
+            claimName: spark-claim1
+        - name: airflow-webserver-claim0
+          persistentVolumeClaim:
+            claimName: airflow-webserver-claim0
+status: {}

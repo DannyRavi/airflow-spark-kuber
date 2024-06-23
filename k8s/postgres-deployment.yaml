@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  labels:
+    app: postgres
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+
+      
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: airflow
+            - name: POSTGRES_PASSWORD
+              value: airflow
+            - name: POSTGRES_USER
+              value: airflow
+          image: postgres:9.6
+          name: postgres
+          ports:
+            - containerPort: 5432
+          resources: {}
+          # volumeMounts:
+          #   - mountPath: /docker-entrypoint-initdb.d
+          #     name: postgres-claim0
+      restartPolicy: Always
+      # volumes:
+      #   - name: postgres-claim0
+      #     persistentVolumeClaim:
+      #       claimName: postgres-claim0
+status: {}

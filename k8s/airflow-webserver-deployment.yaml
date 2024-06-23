@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  labels:
+    app: airflow-webserver
+  name: airflow-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow-webserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+
+      labels:
+        app: airflow-webserver
+    spec:
+      containers:
+        - args:
+            - webserver
+          env:
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: EXECUTOR
+              value: Local
+            - name: EXECUTOR
+              value: Local
+            - name: LOAD_EX
+              value: "n"
+            - name: POSTGRES_DB
+              value: airflow
+            - name: POSTGRES_PASSWORD
+              value: airflow
+            - name: POSTGRES_USER
+              value: airflow
+          image: docker-airflow-spark:1.10.7_3.1.2
+          livenessProbe:
+            exec:
+              command:
+                - '[ -f /usr/local/airflow/airflow-webserver.pid ]'
+            failureThreshold: 3
+            periodSeconds: 30
+            timeoutSeconds: 30
+          name: airflow-webserver
+          ports:
+            - containerPort: 8282
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/local/airflow/dags
+              name: airflow-webserver-claim0
+            - mountPath: /usr/local/spark/app
+              name: spark-claim0
+            - mountPath: /usr/local/spark/resources
+              name: spark-claim1
+      restartPolicy: Always
+      volumes:
+        - name: airflow-webserver-claim0
+          persistentVolumeClaim:
+            claimName: airflow-webserver-claim0
+        - name: spark-claim0
+          persistentVolumeClaim:
+            claimName: spark-claim0
+        - name: spark-claim1
+          persistentVolumeClaim:
+            claimName: spark-claim1
+status: {}

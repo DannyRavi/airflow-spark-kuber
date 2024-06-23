@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+
+  labels:
+    app: airflow-webserver
+  name: airflow-webserver
+spec:
+  type: NodePort
+  ports:
+    - name: "8282"
+      port: 8282
+      targetPort: 8282
+      nodePort: 32003
+  selector:
+    app: airflow-webserver
+status:
+  loadBalancer: {}
