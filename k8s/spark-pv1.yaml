@@ -9,9 +9,8 @@ spec:
   storageClassName: manual
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
+  capacity:
+    storage: 100Mi
   hostPath:
     path: "/workspaces/airflow-spark-kuber/spark/resources"
 status: {}
