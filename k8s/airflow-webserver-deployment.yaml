@@ -38,7 +38,7 @@ spec:
               value: airflow
             - name: POSTGRES_USER
               value: airflow
-          image: docker-airflow-spark:1.10.7_3.1.2
+          image: dannyravi/airflow_spark:1
           livenessProbe:
             exec:
               command:
