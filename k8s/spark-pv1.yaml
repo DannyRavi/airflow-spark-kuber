@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  
+  labels:
+    app: spark-pv1
+  name: spark-pv1
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  hostPath:
+    path: "/workspaces/airflow-spark-kuber/spark/resources"
+status: {}
+
+---
