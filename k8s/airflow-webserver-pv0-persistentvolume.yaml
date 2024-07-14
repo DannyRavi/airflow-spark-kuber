@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 100Mi
+    storage: 1000Mi
   hostPath:
     path: "/workspaces/airflow-spark-kuber/dags"
 status: {}

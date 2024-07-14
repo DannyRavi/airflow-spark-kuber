@@ -53,19 +53,19 @@ spec:
           volumeMounts:
             - mountPath: /usr/local/airflow/dags
               name: airflow-webserver-claim0
-            - mountPath: /usr/local/spark/app
-              name: spark-claim0
-            - mountPath: /usr/local/spark/resources
-              name: spark-claim1
+            # - mountPath: /usr/local/spark/app
+            #   name: spark-claim0
+            # - mountPath: /usr/local/spark/resources
+            #   name: spark-claim1
       restartPolicy: Always
       volumes:
         - name: airflow-webserver-claim0
-          persistentVolumeClaim:
-            claimName: airflow-webserver-claim0
+       #   persistentVolumeClaim:
+      #      claimName: airflow-webserver-claim0
         - name: spark-claim0
-          persistentVolumeClaim:
-            claimName: spark-claim0
+      #     persistentVolumeClaim:
+      #       claimName: spark-claim0
         - name: spark-claim1
-          persistentVolumeClaim:
-            claimName: spark-claim1
+      #     persistentVolumeClaim:
+      #       claimName: spark-claim1
 status: {}

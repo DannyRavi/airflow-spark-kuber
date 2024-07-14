@@ -46,9 +46,9 @@ spec:
       restartPolicy: Always
       volumes:
         - name: spark-claim0
-          persistentVolumeClaim:
-            claimName: spark-claim0
+        #  persistentVolumeClaim:
+        #    claimName: spark-claim0
         - name: spark-claim1
-          persistentVolumeClaim:
-            claimName: spark-claim1
+        #  persistentVolumeClaim:
+        #    claimName: spark-claim1
 status: {}
