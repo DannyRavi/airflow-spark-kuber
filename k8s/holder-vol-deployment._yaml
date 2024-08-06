@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: holder
+  name: holder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: holder
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: holder
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: airflow
+          image: dannyravi/airflow-spark-requirement:1
+          name: holder
+          ports:
+            - containerPort: 8287
+          resources: {}
+          volumeMounts:
+            - mountPath: /holder/docker-airflow/pg-init-scripts
+              name: postgres-claim0
+            - mountPath: /holder/notebooks/
+              name: jupyter-spark-claim0
+            - mountPath: /holder/spark/resources/data/
+              name: jupyter-spark-claim1
+            - mountPath: /holder/spark/resources/jars/
+              name: jupyter-spark-claim2
+            - mountPath: /holder/dags
+              name: airflow-webserver-claim0
+            - mountPath: /holder/spark/app
+              name: spark-claim0
+            - mountPath: /holder/spark/resources
+              name: spark-claim1
+      restartPolicy: Always
+      volumes:
+        - name: postgres-claim0
+          persistentVolumeClaim:
+            claimName: postgres-claim0
+        - name: jupyter-spark-claim0
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim0
+        - name: jupyter-spark-claim1
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim1
+        - name: jupyter-spark-claim2
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim2
+        - name: airflow-webserver-claim0
+          persistentVolumeClaim:
+            claimName: airflow-webserver-claim0
+        - name: spark-claim0
+          persistentVolumeClaim:
+            claimName: spark-claim0
+        - name: spark-claim1
+          persistentVolumeClaim:
+            claimName: spark-claim1
+status: {}

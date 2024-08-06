@@ -30,27 +30,19 @@ spec:
             - mountPath: /home/jovyan/work/notebooks/
               name: jupyter-spark-claim0
             - mountPath: /home/jovyan/work/data/
-              name: jupyter-spark-claim0
+              name: jupyter-spark-claim1
             - mountPath: /home/jovyan/work/jars/
-              name: jupyter-spark-claim0
-            - mountPath: /home/jovyan/work/data/app/
-              name: spark-claim0
-            - mountPath: /home/jovyan/work/data/resources/
-              name: spark-claim1
-            - mountPath: /home/jovyan/work/data/dags/
-              name: airflow-webserver-claim0
+              name: jupyter-spark-claim2
       restartPolicy: Always
       volumes:
         - name: jupyter-spark-claim0
-        #  persistentVolumeClaim:
-        #    claimName: jupyter-spark-claim0
-        - name: spark-claim0
-        #  persistentVolumeClaim:
-        #    claimName: spark-claim0
-        - name: spark-claim1
-        #  persistentVolumeClaim:
-        #    claimName: spark-claim1
-        - name: airflow-webserver-claim0
-        #  persistentVolumeClaim:
-        #    claimName: airflow-webserver-claim0
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim0
+        - name: jupyter-spark-claim1
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim1
+        - name: jupyter-spark-claim2
+          persistentVolumeClaim:
+            claimName: jupyter-spark-claim2
+
 status: {}

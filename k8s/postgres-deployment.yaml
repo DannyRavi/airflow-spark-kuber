@@ -32,12 +32,12 @@ spec:
           ports:
             - containerPort: 5432
           resources: {}
-          # volumeMounts:
-          #   - mountPath: /docker-entrypoint-initdb.d
-          #     name: postgres-claim0
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: postgres-claim0
       restartPolicy: Always
-      # volumes:
-      #   - name: postgres-claim0
-      #     persistentVolumeClaim:
-      #       claimName: postgres-claim0
+      volumes:
+        - name: postgres-claim0
+          persistentVolumeClaim:
+            claimName: postgres-claim0
 status: {}
